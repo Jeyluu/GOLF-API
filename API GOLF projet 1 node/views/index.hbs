@@ -13,7 +13,7 @@
                     <form method="POST" action="/">
                         <div class="form-group">
                             <label>Trou</label>
-                            <input class="form-control" type="text" name="trou">
+                            <input class="form-control" type="text" name="trou"> 
                         </div>
                         <div class="form-group">
                             <label>Par</label>
@@ -39,9 +39,47 @@
                             <label>Départ Blanc</label>
                             <input class="form-control" type="text" name="blanc">
                         </div>
+                        <button type="submit" class="btn btn-primary btn-sm" style="margin:10px 0">Enregistrer</button>
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <h2 style="text-align: center;">Methode PUT : Permet de modifier le contenu</h2>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each trou}}
+                            <li class="list-group-item"><a href="{{this.id}}">{{this.trou}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2 style="text-align: center;">Methode DELETE : Permet de supprimer le contenu</h2>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {{#each trou}}
+                            <li class="list-group-item">{{this.trou}}
+                                <form action="{{this._id}}/?_method=DELETE" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm" style="margin:10px 0">Supprimer</button>
+                                </form>
+                            </li>
+                            
+                        {{/each}}
+                    </ul>
+                    
+                    <form action="/?_method=DELETE" method="POST">
+                        <div style="margin-top: 1rem">
+                            <button type="submit" class="btn btn-danger btn-sm" style="margin:10px 0">Supprimer Tout</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
         </div>
     </div>
                 

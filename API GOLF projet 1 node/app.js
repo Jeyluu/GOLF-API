@@ -4,10 +4,14 @@ const mongoose = require('mongoose') ;
 const exphbs = require('express-handlebars');
 const Handlebars = require("handlebars");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const override = require('method-override')
 
 
 //express
 const app = express();
+
+//method-override
+app.use(override("_method"));
 
 //express-handlebars
 
@@ -51,22 +55,109 @@ app.route("/")
     Trou.find(function(err, information) {
         if(!err) {
             res.render("index", {
-                trou : information
+                trou : information,
+                
             })
         } else {
             res.send(err)
         }
-
-        
     })
 })
 
 
 //POST
-.post()
-//PUT
-.delete()
+.post((req,res) => {
+    const newTrou = new Trou ({
+        trou: req.body.trou,
+        par: req.body.par,
+        handicap: req.body.handicap,
+        departrouge: req.body.rouge,
+        departbleu: req.body.bleu,
+        departjaune: req.body.jaune,
+        departblanc: req.body.blanc
+    });
+    newTrou.save(function(err) {
+        if(!err){
+            res.send('La sauvegarde a été effectué')
+        } else {
+            res.send(err)
+        }
+    })
+})
 
+
+.delete(function(req,res) {
+    Trou.deleteMany(
+        function(err) {
+            if(!err) {
+                res.send('La base de donnée a bien été supprimée')
+            } else {
+                res.send(err)
+            }
+        }
+    )
+})
+
+
+//Route Modification
+app.route('/:id')
+.get(function(req,res) {
+    Trou.findOne(
+        {_id : req.params.id},
+        function(err, renvoi) {
+            if(!err){
+                res.render("edition",{
+                    _id:  renvoi.id,
+                    trou: renvoi.trou,
+                    par: renvoi.par,
+                    handicap: renvoi.handicap,
+                    departrouge: renvoi.departrouge,
+                    departbleu: renvoi.departbleu,
+                    departjaune: renvoi.departjaune,
+                    departblanc: renvoi.departblanc
+
+                })
+            }else {
+                res.send("err")
+            }
+        }
+    )
+})
+.put(function(req,res) {
+    Trou.updateOne(
+        {_id: req.params.id},
+        {
+            trou: req.body.trou,
+            par: req.body.par,
+            handicap: req.body.handicap,
+            departrouge: req.body.rouge,
+            departbleu: req.body.bleu,
+            departjaune: req.body.jaune,
+            departblanc: req.body.blanc
+        },
+        {multi:true},
+        function(err){
+            if(!err) {
+                res.send("La mise à jour a été faite")
+            } else {
+                res.send(err)
+            }
+        }
+    )
+})
+
+.delete(function(req,res) {
+    Trou.deleteOne(
+        {_id: req.params.id},
+        function(err) {
+            if(!err) {
+                res.send('Le trou a été supprimé')
+            } else {
+                res.send(err)
+            }
+        }
+    )
+})
 
 //Ecoute Serveur
 app.listen(2000, () => {
