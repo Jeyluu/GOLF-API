@@ -10,7 +10,7 @@
             <h2 style="text-align: center;">Methode POST : Permet de publier du contenu</h2>
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="/">
+                    <form method="POST" action="/" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Trou</label>
                             <input class="form-control" type="text" name="trou"> 
@@ -39,6 +39,10 @@
                             <label>Départ Blanc</label>
                             <input class="form-control" type="text" name="blanc">
                         </div>
+                        <div class="form-group">
+                            <label>Photo</label>
+                            <input class="form-control" type="file" name="photo"> 
+                        </div>
                         <button type="submit" class="btn btn-primary btn-sm" style="margin:10px 0">Enregistrer</button>
                     </form>
                 </div>
@@ -49,6 +53,7 @@
             <div class="card">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
+                        <h3>Trou n°</h3>
                         {{#each trou}}
                             <li class="list-group-item"><a href="{{this.id}}">{{this.trou}}</a></li>
                         {{/each}}
@@ -61,6 +66,7 @@
             <div class="card">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
+                        <h3>Trou n°</h3>
                         {{#each trou}}
                             <li class="list-group-item">{{this.trou}}
                                 <form action="{{this._id}}/?_method=DELETE" method="POST">
@@ -95,18 +101,37 @@
         <div class="row">
             <div class="col-md-6">
                 
-                    <div class="card">
+                    <div class="card" style="margin-bottom:15px;">
                         <div class="card-body">
+                            
                             <ul class="list-group list-group-flush">
                                 {{#each trou}}
+                                <h3>Trou n°</h3>
                                 <li class="list-group-item">{{this.trou}}</li>
+                                <h3>Par</h3>
+                                <li class="list-group-item">{{this.par}}</li>
+                                <h3>Handicap</h3>
+                                <li class="list-group-item">{{this.handicap}}</li>
+                                <h3>Départ Rouge</h3>
+                                <li class="list-group-item">{{this.departrouge}}</li>
+                                <h3>Départ Bleu</h3>
+                                <li class="list-group-item">{{this.departbleu}}</li>
+                                <h3>Départ Jaune</h3>
+                                <li class="list-group-item">{{this.departjaune}}</li>
+                                <h3>Départ Blanc</h3>
+                                <li class="list-group-item">{{this.departblanc}}</li>
                                 {{/each}}
                             </ul>
                         </div>
                 
                     </div>
             </div>
-            
+            <div class="col-md-6">
+                {{#each trou}}
+                <img src="{{this.photo.path}}" alt="" style="width: 50%;height:580px; margin-bottom:10px">
+                {{/each}}
+            </div>
+                    
         </div>
 
 </div>

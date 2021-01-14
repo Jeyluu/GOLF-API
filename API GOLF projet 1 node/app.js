@@ -4,11 +4,27 @@ const mongoose = require('mongoose') ;
 const exphbs = require('express-handlebars');
 const Handlebars = require("handlebars");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
-const override = require('method-override')
-
+const override = require('method-override');
+const multer = require('multer');
 
 //express
+const port = 2000;
 const app = express();
+
+//express-static
+app.use(express.static("public"))
+
+//multer
+//const upload = multer({ dest: 'uploads/' })
+const storage = multer.diskStorage({
+    destination: function(req,file,cb) {
+        cb(null,'./public/uploads')
+    },
+    filename:function(req,file,cb) {
+        cb(null, file.fieldname +'_'+Date.now())
+    }
+})
+const upload = multer({storage:storage})
 
 //method-override
 app.use(override("_method"));
@@ -42,7 +58,13 @@ const trouSchema = {
     departrouge: Number,
     departbleu: Number,
     departjaune: Number,
-    departblanc: Number
+    departblanc: Number,
+    photo: {
+        name:String,
+        originalname: String,
+        path: String,
+        createAt: Date
+    }
 };
 
 const Trou = mongoose.model("ladomangeres", trouSchema );
@@ -66,7 +88,11 @@ app.route("/")
 
 
 //POST
-.post((req,res) => {
+.post(upload.single("photo"),(req,res) => {
+
+    const file = req.file;
+    console.log(file)
+
     const newTrou = new Trou ({
         trou: req.body.trou,
         par: req.body.par,
@@ -76,6 +102,17 @@ app.route("/")
         departjaune: req.body.jaune,
         departblanc: req.body.blanc
     });
+
+    if(file) {
+        newTrou.photo = {
+            name:file.filename,
+            originalname: file.originalname,
+            path: file.path.replace("public",""),
+            createAt: Date.now()
+        }
+    }
+
+
     newTrou.save(function(err) {
         if(!err){
             res.send('La sauvegarde a été effectué')
@@ -160,6 +197,6 @@ app.route('/:id')
 })
 
 //Ecoute Serveur
-app.listen(2000, () => {
-    console.log("Vous êtes bien connecté au port 2000 de l'ordinateur.");
+app.listen(port, () => {
+    console.log(`Vous êtes bien connecté au port ${port} de l'ordinateur. Lancé à : ${new Date().toLocaleString()}`);
 })
