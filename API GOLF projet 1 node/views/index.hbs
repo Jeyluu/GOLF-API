@@ -1,96 +1,13 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 style="text-align: center;">API Golf de la Domangère</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <!-- POST -->
-            <h2 style="text-align: center;">Methode POST : Permet de publier du contenu</h2>
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST" action="/" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>Trou</label>
-                            <input class="form-control" type="text" name="trou"> 
-                        </div>
-                        <div class="form-group">
-                            <label>Par</label>
-                            <input class="form-control" type="text" name="par">
-                        </div>
-                        <div class="form-group">
-                            <label>Handicap</label>
-                            <input class="form-control" type="text" name="handicap">
-                        </div>
-                        <div class="form-group">
-                            <label>Départ Rouge</label>
-                            <input class="form-control" type="text" name="rouge">
-                        </div>
-                        <div class="form-group">
-                            <label>Départ Bleu</label>
-                            <input class="form-control" type="text" name="bleu">
-                        </div>
-                        <div class="form-group">
-                            <label>Départ Jaune</label>
-                            <input class="form-control" type="text" name="jaune">
-                        </div>
-                        <div class="form-group">
-                            <label>Départ Blanc</label>
-                            <input class="form-control" type="text" name="blanc">
-                        </div>
-                        <div class="form-group">
-                            <label>Photo</label>
-                            <input class="form-control" type="file" name="photo"> 
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm" style="margin:10px 0">Enregistrer</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <h2 style="text-align: center;">Methode PUT : Permet de modifier le contenu</h2>
-            <div class="card">
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <h3>Trou n°</h3>
-                        {{#each trou}}
-                            <li class="list-group-item"><a href="{{this.id}}">{{this.trou}}</a></li>
-                        {{/each}}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <h2 style="text-align: center;">Methode DELETE : Permet de supprimer le contenu</h2>
-            <div class="card">
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <h3>Trou n°</h3>
-                        {{#each trou}}
-                            <li class="list-group-item">{{this.trou}}
-                                <form action="{{this._id}}/?_method=DELETE" method="POST">
-                                    <button type="submit" class="btn btn-danger btn-sm" style="margin:10px 0">Supprimer</button>
-                                </form>
-                            </li>
-                            
-                        {{/each}}
-                    </ul>
-                    
-                    <form action="/?_method=DELETE" method="POST">
-                        <div style="margin-top: 1rem">
-                            <button type="submit" class="btn btn-danger btn-sm" style="margin:10px 0">Supprimer Tout</button>
-                        </div>
-                    </form>
-                </div>
+    <ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./admin">Administration</a>
+  </li>
 
-            </div>
-
-        </div>
-    </div>
-                
-        
-    
+</ul>
     <div class="row">
     
         <div class="col-mod-12">

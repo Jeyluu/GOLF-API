@@ -71,6 +71,44 @@ const Trou = mongoose.model("ladomangeres", trouSchema );
 
 //Route
 //Pour affichage de la page Index dans le localhost
+app.route('/admin')
+.get((req,res) => {
+    res.render('admin')
+})
+//POST
+.post(upload.single("photo"),(req,res) => {
+
+    const file = req.file;
+    console.log(file)
+
+    const newTrou = new Trou ({
+        trou: req.body.trou,
+        par: req.body.par,
+        handicap: req.body.handicap,
+        departrouge: req.body.rouge,
+        departbleu: req.body.bleu,
+        departjaune: req.body.jaune,
+        departblanc: req.body.blanc
+    });
+
+    if(file) {
+        newTrou.photo = {
+            name:file.filename,
+            originalname: file.originalname,
+            path: file.path.replace("public",""),
+            createAt: Date.now()
+        }
+    }
+
+
+    newTrou.save(function(err) {
+        if(!err){
+            res.send('La sauvegarde a été effectué')
+        } else {
+            res.send(err)
+        }
+    })
+})
 app.route("/")
 //GET
 .get((req,res) => {
